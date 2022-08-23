@@ -1,0 +1,14 @@
+
+export PS1="[\u@\h \W]\$"
+export JUPYTER_ENABLE_LAB=no
+set -o vi
+[ -f /tmp/Xauthority ] && cp /tmp/Xauthority /root/.Xauthority
+
+jnb() {
+  jupyter notebook --port=8888 --ip=0.0.0.0 --allow-root --no-browser
+}
+
+jlb() {
+  jupyter lab --port=8888 --ip=0.0.0.0 --allow-root --no-browser
+}
+

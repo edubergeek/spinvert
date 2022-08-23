@@ -1,0 +1,129 @@
+version: "3.2"
+
+services:
+  hazel:
+    build: ./hazel
+    hostname: hazel
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    shm_size: 1gb
+    networks:
+      frontend:
+      backend:
+        ipv4_address: 172.39.0.21
+
+    ports:
+      - "8888:8888"
+    volumes:
+      - /scratch:/scratch
+      - /tmp/.X11-unix/:/tmp/.X11-unix
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      DISPLAY: ${DISPLAY}
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES}
+      JUPYTER_PORT: ${JUPYTER_PORT}
+      DISABLE_JUPYTER: ${DISABLE_JUPYTER}
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN}
+    links:
+      - mpi
+
+  sir:
+    build: ./sir
+    hostname: sir
+    networks:
+      frontend:
+      backend:
+        ipv4_address: 172.39.0.31
+
+    volumes:
+      - /tmp/.X11-unix/:/tmp/.X11-unix
+      - /scratch:/scratch
+
+    environment:
+      DISPLAY: ${DISPLAY}
+      SIR: ${SIR}
+    links:
+      - mpi
+
+  rh:
+    build: ./rh
+    hostname: rh
+    networks:
+      frontend:
+      backend:
+        ipv4_address: 172.39.0.41
+
+    volumes:
+      - /tmp/.X11-unix/:/tmp/.X11-unix
+      - /scratch:/scratch
+
+    environment:
+      DISPLAY: ${DISPLAY}
+      RH: ${RH}
+    links:
+      - mpi
+
+  desire:
+    build: ./desire
+    hostname: desire
+    networks:
+      frontend:
+      backend:
+        ipv4_address: 172.39.0.51
+
+    volumes:
+      - /tmp/.X11-unix/:/tmp/.X11-unix
+      - /scratch:/scratch
+
+    environment:
+      DISPLAY: ${DISPLAY}
+      DESIRE: ${DESIRE}
+    links:
+      - mpi
+
+  mpi:
+    build: ./mpi
+    hostname: mpi
+    networks:
+      frontend:
+      backend:
+        ipv4_address: 172.39.0.10
+
+    volumes:
+      - /scratch:/scratch
+      - /tmp/.X11-unix/:/tmp/.X11-unix
+    #restart: always
+    environment:
+      DISPLAY: ${DISPLAY}
+      JUPYTER_PORT: ${JUPYTER_PORT}
+
+#     links:
+#       - mpi_node
+
+#   mpi_node:
+#     build: .
+#     # image: openmpi
+#     networks:
+#       - net
+#
+# networks:
+#   net:
+#     driver: bridge
+
+networks:
+  frontend:
+  backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.39.0.0/24
+
+
