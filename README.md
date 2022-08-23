@@ -1,2 +1,3 @@
 # spinvert
-Spectropolarimetric Inversion codes plus MPI
+Docker Compose containers with 4 Spectropolarimetric Inversion codes plus MPI
+
