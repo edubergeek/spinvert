@@ -13,8 +13,8 @@ MAINTAINER Curt Dodds <dodds@hawaii.edu>
 
 WORKDIR /
 
-COPY desire20220404.tar desire20220404.tar
-RUN tar xvf desire20220404.tar
+COPY desire20220404.tar.gz desire20220404.tar.gz
+RUN tar xzvf desire20220404.tar.gz
 RUN chown -R ${USER}:${USER} /desire
 
 USER ${USER}
