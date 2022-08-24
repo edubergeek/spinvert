@@ -12,6 +12,8 @@ These are SIR, Hazel, RH and DeSIRe:
 
 For running parallelized codes a modified copy of Ole Weidner's [Docker OpenMPI repo](https://github.com/oweidner/docker.openmpi) is included. The sshd service is not activated but the MPI is available.
 
+If /scratch exists it will be mapped into the container.
+
 ## Usage
 To build them all use:
   docker-compose build
@@ -19,21 +21,28 @@ To build them all use:
 To launch them all at once:
   docker-compose up -d
 
-To stop them all:
+To stop any or all running services:
   docker-compose down
+  
+To launch just one code:
+  docker-compose up -d sir|hazel|rh|desire
 
 To get shell prompt for a particular code:
-   - **SIR** - docker exec -it --user=mpirun spinvert-sir-1 /bin/bash
-   - **HAZEL** - docker exec -it --user=mpirun spinvert-hazel-1 /bin/bash
-   - **RH** - docker exec -it --user=mpirun spinvert-rh-1 /bin/bash
-   - **DeSIRe** - docker exec -it --user=mpirun spinvert-desire-1 /bin/bash
+   - **SIR** - docker exec -it spinvert-sir-1 /bin/bash
+   - **HAZEL** - docker exec -it spinvert-hazel-1 /bin/bash
+   - **RH** - docker exec -it spinvert-rh-1 /bin/bash
+   - **DeSIRe** - docker exec -it spinvert-desire-1 /bin/bash
 
-To run an interactive session of a single code (rather than all of them):
-   - **SIR** - docker run -it --user=mpirun spinvert_sir /bin/bash
-   - **HAZEL** - docker run -it --user=mpirun spinvert_hazel /bin/bash
-   - **RH** - docker run -it --user=mpirun spinvert_rh /bin/bash
-   - **DeSIRe** - docker run -it --user=mpirun spinvert_desire /bin/bash
-
+For a quick and easy Jupyter Notebook:
+  1. cd spinvert
+  1. docker-compose up -d hazel
+  1. docker exec -it spinvert-hazel-1 /bin/bash
+  1. cd /scratch
+  1. jnb
+  1. copy the token that is displayed
+  1. open a browser to localhost:8888 (ssh port forwarding is useful here)
+  1. paste the token from above and hit Return
+  
 ## Documentation
    - [**SIR**](https://github.com/BasilioRuiz/SIR-code/blob/master/manual/manual.pdf)
    - [**HAZEL**](https://aasensio.github.io/hazel2/index.html)
