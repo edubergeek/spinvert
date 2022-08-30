@@ -14,7 +14,7 @@ services:
         ipv4_address: 172.39.0.21
 
     ports:
-      - "8888:8888"
+      - "8881:8888"
     volumes:
       - /scratch:/scratch
       - /tmp/.X11-unix/:/tmp/.X11-unix
@@ -43,6 +43,8 @@ services:
       backend:
         ipv4_address: 172.39.0.31
 
+    ports:
+      - "8882:8888"
     volumes:
       - /tmp/.X11-unix/:/tmp/.X11-unix
       - /scratch:/scratch
@@ -61,6 +63,8 @@ services:
       backend:
         ipv4_address: 172.39.0.41
 
+    ports:
+      - "8883:8888"
     volumes:
       - /tmp/.X11-unix/:/tmp/.X11-unix
       - /scratch:/scratch
@@ -79,6 +83,8 @@ services:
       backend:
         ipv4_address: 172.39.0.51
 
+    ports:
+      - "8884:8888"
     volumes:
       - /tmp/.X11-unix/:/tmp/.X11-unix
       - /scratch:/scratch
